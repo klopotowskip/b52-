@@ -1,5 +1,6 @@
 package online.twojafirma.b52.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -17,7 +18,7 @@ public class SaleOffer {
     @Column(insertable=false, updatable=false)
     private String offerName;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "district", insertable=false, updatable=false)
     private District district;
 
