@@ -1,0 +1,18 @@
+server:
+  port: 2137
+spring:
+  main:
+    web-application-type: servlet
+  datasource:
+    url: jdbc:mariadb://localhost:3306/housintelligence_bis
+    username: root
+    password:
+    driver-class-name: org.mariadb.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+    show-sql: true
