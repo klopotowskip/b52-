@@ -1,6 +1,7 @@
 package online.twojafirma.b52.controller;
 
 import online.twojafirma.b52.model.SaleOffer;
+import online.twojafirma.b52.model.summary.RentalOffersSummary;
 import online.twojafirma.b52.model.summary.SaleOffersSummary;
 import online.twojafirma.b52.service.SaleOfferService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,5 +36,10 @@ public class SaleOfferController {
     @GetMapping(path = "statistics")
     public List<SaleOffersSummary> getAllStatistics(){
         return saleOffersService.getAllStatistics();
+    }
+
+    @GetMapping(path = "statistics/{id}")
+    public List<SaleOffersSummary> getStatisticsByDistrict(@PathVariable int id){
+        return saleOffersService.getStatisticsForDistrict(id);
     }
 }

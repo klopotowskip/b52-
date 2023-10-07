@@ -37,4 +37,9 @@ public class RentalOfferController {
     public List<RentalOffersSummary> getAllStatistics(){
         return rentalOffersService.getAllStatistics();
     }
+
+    @GetMapping(path = "statistics/{id}")
+    public List<RentalOffersSummary> getStatisticsByDistrict(@PathVariable int id){
+        return rentalOffersService.getStatisticsForDistrict(id);
+    }
 }
