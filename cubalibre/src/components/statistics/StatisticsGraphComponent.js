@@ -66,14 +66,20 @@ const StatisticsGraphComponent = ({statistics}) => {
         <div className="sidebar-component__statistics">
 
             <ul className="tabs sidebar-component__statistics__tabs">
-                <li className="tab col s3"><a href="#" onClick={onSaleClicked}>Sale</a></li>
-                <li className="tab col s3"><a href="#" onClick={onRentalClicked}>Rental</a></li>
+                <li className="tab col s3"><a href="#" onClick={onSaleClicked} className={chartData.market === "sale" ? "active": ""}>Sale</a></li>
+                <li className="tab col s3"><a href="#" onClick={onRentalClicked} className={chartData.market === "rental" ? "active": ""}>Rental</a></li>
             </ul>
 
             <ul className="tabs sidebar-component__statistics__tabs">
-                <li className="tab col s3"><a href="#" onClick={onPriceClicked}>Price</a></li>
-                <li className="tab col s3"><a href="#" onClick={onPricePerSquareMeterClicked}>Price/m<sup>2</sup></a></li>
-                <li className="tab col s3"><a href="#" onClick={onSizeClicked}>Size</a></li>
+                <li className="tab col s3">
+                    <a href="#" onClick={onPriceClicked} className={chartData.key === "latestPrice" ? "active": ""}>Price</a>
+                </li>
+                <li className="tab col s3">
+                    <a href="#" onClick={onPricePerSquareMeterClicked} className={chartData.key === "latestPricePerSquareMeter" ? "active": ""}>Price/m<sup>2</sup></a>
+                </li>
+                <li className="tab col s3">
+                    <a href="#" onClick={onSizeClicked} className={chartData.key === "sizeSquareMeters" ? "active": ""}>Size</a>
+                </li>
             </ul>
 
             <Line
