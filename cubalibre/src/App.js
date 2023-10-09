@@ -4,7 +4,7 @@ import MapComponent from './components/MapComponent';
 import HeaderComponent from "./components/HeaderComponent";
 import SidebarComponent from "./components/SidebarComponent";
 
-function App() {
+const App = () => {
     return (
         <>
             <HeaderComponent/>
