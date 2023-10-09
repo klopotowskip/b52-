@@ -88,8 +88,7 @@ const StatisticsGraphComponent = ({statistics}) => {
                     <a href="#" onClick={onSizeClicked} className={chartData.key === SIZE ? "active": ""}>Size</a>
                 </li>
             </ul>
-
-            <Line
+            {statistics[chartData.market].map(entry => entry[chartData.key]).length !== 0 ? (<Line
                 data={{
                     labels: statistics[chartData.market].map(entry => new Date(entry['entryDateYearMonth'] + "-01")),
                     datasets: [{
@@ -139,7 +138,10 @@ const StatisticsGraphComponent = ({statistics}) => {
                         }
                     }
                 }}
-            />
+            />) : (<div className="error">
+                Sorry, but we don't have this data yet :(
+            </div>)}
+
         </div>
     );
 }
