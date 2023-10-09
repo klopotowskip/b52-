@@ -14,7 +14,6 @@ const DistrictsMarkersComponent = ({data, setData}) => {
       "name": districtName,
       "city": districtCity
     });
-    //alert("marker clicked " + districtId + ", " + districtName + ", " + districtCity)
   }
 
   const fetchUserData = () => {
