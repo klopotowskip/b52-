@@ -1,10 +1,12 @@
 import React, {useState, useEffect} from "react";
-import SaleStatisticsComponent from "./statistics/SaleStatisticsComponent";
+import StatisticsGraphComponent from "./statistics/StatisticsGraphComponent";
 
 
 const SidebarComponent = ({data, setData}) => {
-    const [rentalStatistics, setRentalStatistics] = useState([])
-    const [saleStatistics, setSaleStatistics] = useState([])
+    const [statistics, setStatistics] = useState({
+        sale: [],
+        rental: []
+    })
 
 
     const fetchDistrictStatistics = async () => {
@@ -14,12 +16,13 @@ const SidebarComponent = ({data, setData}) => {
         const rentalStatisticsResponse = await fetch("api/v1/rental/statistics/" + data.id);
         const rentalStatistics = await rentalStatisticsResponse.json();
 
-        setRentalStatistics(rentalStatistics);
-
         const saleStatisticsResponse = await fetch("api/v1/sale/statistics/" + data.id);
         const saleStatistics = await saleStatisticsResponse.json();
 
-        setSaleStatistics(saleStatistics);
+        setStatistics({
+            sale: saleStatistics,
+            rental: rentalStatistics
+        });
     }
 
     useEffect(() => {
@@ -49,7 +52,7 @@ const SidebarComponent = ({data, setData}) => {
             <h2 className="sidebar-component__title">{data.name}</h2>
             <h3 className="sidebar-component__subtitle">{data.city}</h3>
 
-            <SaleStatisticsComponent saleStatistics={saleStatistics} />
+            <StatisticsGraphComponent statistics={statistics} />
         </div>
     );
 }
