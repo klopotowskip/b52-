@@ -78,3 +78,16 @@ nav{
 .leaflet-bottom.leaflet-right > .leaflet-control-attribution.leaflet-control {
   visibility: hidden;
 }
+
+.sidebar-component__statistics__tabs{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #eee;
+  margin: 10px 0;
+  font-weight: 600;
+}
+
+.sidebar-component__statistics__tabs > *{
+  display: block;
+}
