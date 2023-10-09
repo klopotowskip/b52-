@@ -2,12 +2,20 @@ import React, { useEffect, useState } from "react"
 import {Marker} from "react-leaflet";
 
 
-const onDistrictMarkerClicked = (districtId, districtName, districtCity) => {
-  alert("marker clicked " + districtId + ", " + districtName + ", " + districtCity)
-}
 
-const DistrictsMarkersComponent = () => {
+
+const DistrictsMarkersComponent = ({data, setData}) => {
+
   const [districts, setDistricts] = useState([])
+
+  const onDistrictMarkerClicked = (districtId, districtName, districtCity) => {
+    setData({
+      "id": districtId,
+      "name": districtName,
+      "city": districtCity
+    });
+    //alert("marker clicked " + districtId + ", " + districtName + ", " + districtCity)
+  }
 
   const fetchUserData = () => {
     fetch("api/v1/district")

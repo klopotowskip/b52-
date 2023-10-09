@@ -2,7 +2,7 @@ import {AttributionControl, MapContainer, TileLayer} from "react-leaflet";
 import React from "react"
 import DistrictMarkersComponent from "./DistrictMarkersComponent";
 
-const MapComponent = () => {
+const MapComponent = ({data, setData}) => {
 
     return (<MapContainer center={[54.4269, 18.6976]} zoom={11} scrollWheelZoom={true}>
         <TileLayer
@@ -10,7 +10,7 @@ const MapComponent = () => {
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         />
         <AttributionControl position="bottomleft"/>
-        <DistrictMarkersComponent/>
+        <DistrictMarkersComponent data={data} setData={setData} />
     </MapContainer>);
 }
 
