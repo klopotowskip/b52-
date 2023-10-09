@@ -6,52 +6,59 @@ import {CategoryScale, LinearScale} from 'chart.js';
 import 'chartjs-adapter-date-fns';
 import { pl } from 'date-fns/locale';
 
+const MARKET_SALE = "sale";
+const MARKET_RENTAL = "rental";
+
+const PRICE = "latestPrice";
+const PRICE_PER_SQ_M = "latestPricePerSquareMeter";
+const SIZE = "sizeSquareMeters";
+
 
 const StatisticsGraphComponent = ({statistics}) => {
     Chart.register(CategoryScale, LinearScale);
 
     const [chartData, setChartData] = useState({
-        market: "sale",
-        key: "latestPrice",
-        title: "Average price [PLN]"
+        market: MARKET_SALE,
+        key: PRICE,
+        graphTitle: "Average price [PLN]"
     });
 
     const onSaleClicked = () => {
         setChartData({
-            market: "sale",
-            key: chartData["key"],
-            title: chartData["title"]
+            market: MARKET_SALE,
+            key: chartData.key,
+            title: chartData.graphTitle
         });
     }
 
     const onRentalClicked = () => {
         setChartData({
-            market: "rental",
-            key: chartData["key"],
-            title: chartData["title"]
+            market: MARKET_RENTAL,
+            key: chartData.key,
+            title: chartData.graphTitle
         });
     }
 
     const onPriceClicked = () => {
         setChartData({
-            market: chartData["market"],
-            key: "latestPrice",
+            market: chartData.market,
+            key: PRICE,
             title: "Average price [PLN]"
         });
     };
 
     const onPricePerSquareMeterClicked = () => {
         setChartData({
-            market: chartData["market"],
-            key: "latestPricePerSquareMeter",
+            market: chartData.market,
+            key: PRICE_PER_SQ_M,
             title: "Average price per m^2 [PLN/m^2]"
         });
     };
 
     const onSizeClicked = () => {
         setChartData({
-            market: chartData["market"],
-            key: "sizeSquareMeters",
+            market: chartData.market,
+            key: SIZE,
             title: "Average size in m^2"
         });
     };
@@ -66,28 +73,28 @@ const StatisticsGraphComponent = ({statistics}) => {
         <div className="sidebar-component__statistics">
 
             <ul className="tabs sidebar-component__statistics__tabs">
-                <li className="tab col s3"><a href="#" onClick={onSaleClicked} className={chartData.market === "sale" ? "active": ""}>Sale</a></li>
-                <li className="tab col s3"><a href="#" onClick={onRentalClicked} className={chartData.market === "rental" ? "active": ""}>Rental</a></li>
+                <li className="tab col s3"><a href="#" onClick={onSaleClicked} className={chartData.market === MARKET_SALE ? "active": ""}>Sale</a></li>
+                <li className="tab col s3"><a href="#" onClick={onRentalClicked} className={chartData.market === MARKET_RENTAL ? "active": ""}>Rental</a></li>
             </ul>
 
             <ul className="tabs sidebar-component__statistics__tabs">
                 <li className="tab col s3">
-                    <a href="#" onClick={onPriceClicked} className={chartData.key === "latestPrice" ? "active": ""}>Price</a>
+                    <a href="#" onClick={onPriceClicked} className={chartData.key === PRICE ? "active": ""}>Price</a>
                 </li>
                 <li className="tab col s3">
-                    <a href="#" onClick={onPricePerSquareMeterClicked} className={chartData.key === "latestPricePerSquareMeter" ? "active": ""}>Price/m<sup>2</sup></a>
+                    <a href="#" onClick={onPricePerSquareMeterClicked} className={chartData.key === PRICE_PER_SQ_M ? "active": ""}>Price/m<sup>2</sup></a>
                 </li>
                 <li className="tab col s3">
-                    <a href="#" onClick={onSizeClicked} className={chartData.key === "sizeSquareMeters" ? "active": ""}>Size</a>
+                    <a href="#" onClick={onSizeClicked} className={chartData.key === SIZE ? "active": ""}>Size</a>
                 </li>
             </ul>
 
             <Line
                 data={{
-                    labels: statistics[chartData["market"]].map(entry => new Date(entry['entryDateYearMonth'] + "-01")),
+                    labels: statistics[chartData.market].map(entry => new Date(entry['entryDateYearMonth'] + "-01")),
                     datasets: [{
                         label: 'Sale prices',
-                        data: statistics[chartData["market"]].map(entry => entry[chartData['key']]),
+                        data: statistics[chartData.market].map(entry => entry[chartData.key]),
                         borderColor: "#ee6e73",
                         fill: false,
                         cubicInterpolationMode: 'monotone',
@@ -99,7 +106,7 @@ const StatisticsGraphComponent = ({statistics}) => {
                     plugins: {
                         title: {
                             display: true,
-                            text: chartData['title']
+                            text: chartData.graphTitle
                         },
                         legend: {
                             display: false
