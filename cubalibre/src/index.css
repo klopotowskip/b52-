@@ -39,6 +39,19 @@ nav{
   -webkit-box-shadow: 8px 8px 24px 0px rgba(66, 68, 90, 1);
   -moz-box-shadow: 8px 8px 24px 0px rgba(66, 68, 90, 1);
   box-shadow: 8px 8px 24px 0px rgba(66, 68, 90, 1);
+
+  animation: .3s linear show-sidebar;
+}
+
+@keyframes show-sidebar {
+  from{
+    right: -30%;
+    opacity: 0;
+  }
+  to{
+    right: 0;
+    opacity: 1;
+  }
 }
 
 .sidebar-component__title{
