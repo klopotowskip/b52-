@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.YearMonth;
 
-public class SaleOffersSummary {
+public class SaleOffersSummary implements Comparable<SaleOffersSummary>{
     private final District district;
     private final YearMonth entryDateYearMonth;
     private final BigDecimal latestPrice;
@@ -55,5 +55,10 @@ public class SaleOffersSummary {
 
     public BigDecimal getSizeSquareMeters() {
         return sizeSquareMeters;
+    }
+
+    @Override
+    public int compareTo(SaleOffersSummary that) {
+        return this.entryDateYearMonth.compareTo(that.entryDateYearMonth);
     }
 }

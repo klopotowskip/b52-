@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.YearMonth;
 
-public class RentalOffersSummary {
+public class RentalOffersSummary implements Comparable<RentalOffersSummary>{
     private final District district;
     private final YearMonth entryDateYearMonth;
     private final BigDecimal latestPrice;
@@ -55,5 +55,10 @@ public class RentalOffersSummary {
 
     public BigDecimal getSizeSquareMeters() {
         return sizeSquareMeters;
+    }
+
+    @Override
+    public int compareTo(RentalOffersSummary that) {
+        return this.entryDateYearMonth.compareTo(that.entryDateYearMonth);
     }
 }

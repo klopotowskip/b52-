@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collections;
 import java.util.List;
 
 @RequestMapping(path="api/v1/rental")
@@ -40,6 +41,8 @@ public class RentalOfferController {
 
     @GetMapping(path = "statistics/{id}")
     public List<RentalOffersSummary> getStatisticsByDistrict(@PathVariable int id){
-        return rentalOffersService.getStatisticsForDistrict(id);
+        List<RentalOffersSummary> statistics = rentalOffersService.getStatisticsForDistrict(id);
+        Collections.sort(statistics);
+        return statistics;
     }
 }
