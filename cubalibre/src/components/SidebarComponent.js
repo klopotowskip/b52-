@@ -1,13 +1,41 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
+import SaleStatisticsComponent from "./statistics/SaleStatisticsComponent";
 
 
 const SidebarComponent = ({data, setData}) => {
+    const [rentalStatistics, setRentalStatistics] = useState([])
+    const [saleStatistics, setSaleStatistics] = useState([])
+
+
+    const fetchDistrictStatistics = async () => {
+        if(data.id == null){
+            return;
+        }
+        const rentalStatisticsResponse = await fetch("api/v1/rental/statistics/" + data.id);
+        const rentalStatistics = await rentalStatisticsResponse.json();
+
+        setRentalStatistics(rentalStatistics);
+
+        const saleStatisticsResponse = await fetch("api/v1/sale/statistics/" + data.id);
+        const saleStatistics = await saleStatisticsResponse.json();
+
+        setSaleStatistics(saleStatistics);
+    }
+
+    useEffect(() => {
+        fetchDistrictStatistics().catch(() => {
+            ////TODO: Add alert
+            alert("Error!");
+        })
+    }, [data])
+
     const EMPTY = ({
         "id": null,
         "name": null,
         "city": null
     })
-    if(data.id == null) return(<></>);
+    if (data.id == null) return (<></>);
+
 
     const closeSidebar = () => {
         setData(EMPTY)
@@ -20,6 +48,8 @@ const SidebarComponent = ({data, setData}) => {
 
             <h2 className="sidebar-component__title">{data.name}</h2>
             <h3 className="sidebar-component__subtitle">{data.city}</h3>
+
+            <SaleStatisticsComponent saleStatistics={saleStatistics} />
         </div>
     );
 }
