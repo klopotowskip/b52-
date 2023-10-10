@@ -8,24 +8,23 @@ const SidebarComponent = ({data, setData}) => {
         rental: []
     })
 
-
-    const fetchDistrictStatistics = async () => {
-        if(data.id == null){
-            return;
-        }
-        const rentalStatisticsResponse = await fetch("api/v1/rental/statistics/" + data.id);
-        const rentalStatistics = await rentalStatisticsResponse.json();
-
-        const saleStatisticsResponse = await fetch("api/v1/sale/statistics/" + data.id);
-        const saleStatistics = await saleStatisticsResponse.json();
-
-        setStatistics({
-            sale: saleStatistics,
-            rental: rentalStatistics
-        });
-    }
-
     useEffect(() => {
+        const fetchDistrictStatistics = async () => {
+            if(data.id == null){
+                return;
+            }
+            const rentalStatisticsResponse = await fetch("api/v1/rental/statistics/" + data.id);
+            const rentalStatistics = await rentalStatisticsResponse.json();
+
+            const saleStatisticsResponse = await fetch("api/v1/sale/statistics/" + data.id);
+            const saleStatistics = await saleStatisticsResponse.json();
+
+            setStatistics({
+                sale: saleStatistics,
+                rental: rentalStatistics
+            });
+        }
+
         fetchDistrictStatistics().catch(() => {
             ////TODO: Add alert
             alert("Error!");
