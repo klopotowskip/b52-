@@ -121,6 +121,7 @@ const StatisticsGraphComponent = ({statistics}) => {
                             },
                             time: {
                                 unit: 'month',
+                                round: 'day',
                                 displayFormats: {
                                     month: 'yyyy-MM'
                                 }
