@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react";
 import StatisticsGraphComponent from "./statistics/StatisticsGraphComponent";
+import IndexesGraphComponent from "./statistics/IndexesGraphComponent";
 
 
 const SidebarComponent = ({data, setData}) => {
@@ -52,6 +53,7 @@ const SidebarComponent = ({data, setData}) => {
             <h3 className="sidebar-component__subtitle">{data.city}</h3>
 
             <StatisticsGraphComponent statistics={statistics} />
+            <IndexesGraphComponent statistics={statistics} />
         </div>
     );
 }
