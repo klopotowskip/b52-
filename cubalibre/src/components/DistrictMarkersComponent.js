@@ -1,5 +1,12 @@
 import React, {useEffect, useState} from "react"
 import {Marker} from "react-leaflet";
+import {Icon} from 'leaflet';
+
+const houseIcon = new Icon ({
+    iconUrl : 'http://localhost/static/house.svg',
+    iconSize : [25,25], // size of the icon
+})
+
 
 
 const DistrictsMarkersComponent = ({data, setData}) => {
@@ -34,6 +41,7 @@ const DistrictsMarkersComponent = ({data, setData}) => {
             {districts.map(district => (<Marker
                     key={district.id}
                     position={[district.lat, district.lon]}
+                    icon={houseIcon}
                     eventHandlers={{
                         click: (e) => {
                             onDistrictMarkerClicked(district.id, district.name, district.city)
