@@ -6,67 +6,52 @@ import {CategoryScale, LinearScale} from 'chart.js';
 import 'chartjs-adapter-date-fns';
 import { pl } from 'date-fns/locale';
 
-import { Finance } from 'financejs'
+const PP = "ppValue";
+const YIELD = "yieldValue";
 
-const NPV = "npv";
-const IRR = "irr";
-const PAYBACK_PERIOD = "payback_period";
+const ENTRY_DATE_KEY = "entryDateYearMonth";
 
 const MARKET_SALE = "sale";
 const MARKET_RENTAL = "rental";
 
-const NPV_TITLE = "Net Present Value (NPV) [i=15%]";
-const IRR_TITLE = "Internal Rate of Return (IRR)";
-const PAYBACK_PERIOD_TITLE = "Payback Period"
-
+const CHART_META = {
+    [PP] : {
+        "title": "Payback Period (in years)",
+        "xLabel": "Month-Year",
+        "yLabel": "Years"
+    },
+    [YIELD] : {
+        "title": "Yield",
+        "xLabel": "Month-Year",
+        "yLabel": "1/Years"
+    }
+};
 
 const IndexesGraphComponent = ({statistics}) => {
     Chart.register(CategoryScale, LinearScale);
-    const finance = new Finance();
 
     const [chartData, setChartData] = useState({
-        //commonStatistics: statistics['sale'].filter()
-        financialIndex: NPV,
-        graphTitle: NPV_TITLE
+        financialIndex: PP,
     });
 
-    const onNpvClicked = () => {
+    const onPpClicked = () => {
         setChartData({
-            financialIndex: NPV,
-            graphTitle: NPV_TITLE
+            financialIndex: PP
         });
     };
 
-    const onIrrClicked = () => {
+    const onYieldClicked = () => {
         setChartData({
-            financialIndex: IRR,
-            graphTitle: IRR_TITLE
+            financialIndex: YIELD
         });
     };
-
-    const onPaybackPeriodClicked = () => {
-        setChartData({
-            financialIndex: PAYBACK_PERIOD,
-            graphTitle: PAYBACK_PERIOD_TITLE
-        });
-    };
-
-    const commonLabels = (saleData, rentalData) => {
-        return saleData.map(entry => entry.entryDateYearMonth)
-            .filter(ymDate => rentalData.map(rdEntry => rdEntry.entryDateYearMonth).includes(ymDate))
-            .map(date => new Date(date + "-01"));
-    }
-
-    const paybackPeriod = (date, saleData, rentalData) => {
-        const yyyyMm = date.format('YYYY-MM');
-        const buyPrice = saleData.find(entry => entry.entryDateYearMonth === yyyyMm);
-        const rentPrice = rentData.find(entry => entry.entryDateYearMonth === yyyyMm);
-        return finance.PP(0, -buyPrice, rentPrice);
-    }
 
 
 
     if(statistics.sale == null){
+        return;
+    }
+    if(statistics[chartData.financialIndex] == null){
         return;
     }
 
@@ -74,17 +59,16 @@ const IndexesGraphComponent = ({statistics}) => {
         <div className="sidebar-component__indexes">
             <h4 className="sidebar-component__indexes__title">Financial indexes</h4>
             <ul className="tabs sidebar-component__statistics__tabs">
-                <li className="tab col s3"><a href="#" onClick={onNpvClicked} className={chartData.financialIndex === NPV ? "active": ""}>NPV</a></li>
-                <li className="tab col s3"><a href="#" onClick={onIrrClicked} className={chartData.financialIndex === IRR ? "active": ""}>IRR</a></li>
-                <li className="tab col s3"><a href="#" onClick={onPaybackPeriodClicked} className={chartData.financialIndex === PAYBACK_PERIOD ? "active": ""}>RoR</a></li>
+                <li className="tab col s3"><a href="#" onClick={onPpClicked} className={chartData.financialIndex === PP ? "active": ""}>Payback Period</a></li>
+                <li className="tab col s3"><a href="#" onClick={onYieldClicked} className={chartData.financialIndex === YIELD ? "active": ""}>Yield</a></li>
             </ul>
 
             {statistics[MARKET_RENTAL].length !== 0 && statistics[MARKET_SALE] !== 0 ? (<Line
                 data={{
-                    labels: commonLabels(statistics[MARKET_SALE], statistics[MARKET_RENTAL]),
+                    labels: statistics[chartData.financialIndex].map(entry => new Date(entry[ENTRY_DATE_KEY] + "-01")),
                     datasets: [{
-                        label: 'Sale prices',
-                        data: [1, 2],
+                        label: CHART_META[chartData.financialIndex].title,
+                        data: statistics[chartData.financialIndex].map(entry => entry["value"]),
                         borderColor: "#ee6e73",
                         fill: false,
                         cubicInterpolationMode: 'monotone',
@@ -96,7 +80,7 @@ const IndexesGraphComponent = ({statistics}) => {
                     plugins: {
                         title: {
                             display: true,
-                            text: chartData.graphTitle
+                            text: CHART_META[chartData.financialIndex].title
                         },
                         legend: {
                             display: false
@@ -118,13 +102,13 @@ const IndexesGraphComponent = ({statistics}) => {
                             },
                             title: {
                                 display: true,
-                                text: 'Date'
+                                text: CHART_META[chartData.financialIndex].xLabel
                             }
                         },
                         y: {
                             title: {
                                 display: true,
-                                text: 'Value'
+                                text: CHART_META[chartData.financialIndex].yLabel
                             }
                         }
                     }
