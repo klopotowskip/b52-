@@ -13,6 +13,44 @@ const PRICE = "latestPrice";
 const PRICE_PER_SQ_M = "latestPricePerSquareMeter";
 const SIZE = "sizeSquareMeters";
 
+const CHART_META = {
+    [MARKET_SALE] : {
+        [PRICE]: {
+            "title": "Properties for sale -- median price [PLN]",
+            "xLabel": "Month-Year",
+            "yLabel": "PLN"
+        },
+        [PRICE_PER_SQ_M]: {
+            "title": "Properties for sale -- median price per square meter [PLN/m²]",
+            "xLabel": "Month-Year",
+            "yLabel": "PLN/m²"
+        },
+        [SIZE]: {
+            "title": "Properties for sale -- median size [m²]",
+            "xLabel": "Month-Year",
+            "yLabel": "m²"
+        },
+    },
+    [MARKET_RENTAL] : {
+        [PRICE]: {
+            "title": "Properties for rent -- median monthly rent [PLN]",
+            "xLabel": "Month-Year",
+            "yLabel": "PLN"
+        },
+        [PRICE_PER_SQ_M]: {
+            "title": "Properties for rent -- median monthly rent per square meter [PLN/m²]",
+            "xLabel": "Month-Year",
+            "yLabel": "PLN/m²"
+        },
+        [SIZE]: {
+            "title": "Properties for rent -- median size [m²]",
+            "xLabel": "Month-Year",
+            "yLabel": "m²"
+        },
+    }
+};
+
+
 
 const StatisticsGraphComponent = ({statistics}) => {
     Chart.register(CategoryScale, LinearScale);
@@ -20,46 +58,40 @@ const StatisticsGraphComponent = ({statistics}) => {
     const [chartData, setChartData] = useState({
         market: MARKET_SALE,
         key: PRICE,
-        graphTitle: "Average price [PLN]"
     });
 
     const onSaleClicked = () => {
         setChartData({
             market: MARKET_SALE,
             key: chartData.key,
-            title: chartData.graphTitle
         });
     }
 
     const onRentalClicked = () => {
         setChartData({
             market: MARKET_RENTAL,
-            key: chartData.key,
-            title: chartData.graphTitle
+            key: chartData.key
         });
     }
 
     const onPriceClicked = () => {
         setChartData({
             market: chartData.market,
-            key: PRICE,
-            title: "Average price [PLN]"
+            key: PRICE
         });
     };
 
     const onPricePerSquareMeterClicked = () => {
         setChartData({
             market: chartData.market,
-            key: PRICE_PER_SQ_M,
-            title: "Average price per m^2 [PLN/m^2]"
+            key: PRICE_PER_SQ_M
         });
     };
 
     const onSizeClicked = () => {
         setChartData({
             market: chartData.market,
-            key: SIZE,
-            title: "Average size in m^2"
+            key: SIZE
         });
     };
 
@@ -92,7 +124,7 @@ const StatisticsGraphComponent = ({statistics}) => {
                 data={{
                     labels: statistics[chartData.market].map(entry => new Date(entry['entryDateYearMonth'] + "-01")),
                     datasets: [{
-                        label: 'Sale prices',
+                        label: CHART_META[chartData.market][chartData.key].title,
                         data: statistics[chartData.market].map(entry => entry[chartData.key]),
                         borderColor: "#ee6e73",
                         fill: false,
@@ -105,7 +137,7 @@ const StatisticsGraphComponent = ({statistics}) => {
                     plugins: {
                         title: {
                             display: true,
-                            text: chartData.graphTitle
+                            text: CHART_META[chartData.market][chartData.key].title
                         },
                         legend: {
                             display: false
@@ -128,13 +160,13 @@ const StatisticsGraphComponent = ({statistics}) => {
                             },
                             title: {
                                 display: true,
-                                text: 'Date'
+                                text: CHART_META[chartData.market][chartData.key].xLabel
                             }
                         },
                         y: {
                             title: {
                                 display: true,
-                                text: 'Value'
+                                text: CHART_META[chartData.market][chartData.key].yLabel
                             }
                         }
                     }
