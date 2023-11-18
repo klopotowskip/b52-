@@ -57,7 +57,9 @@ const IndexesGraphComponent = ({statistics}) => {
 
     return (
         <div className="sidebar-component__indexes">
-            <h4 className="sidebar-component__indexes__title">Financial indexes</h4>
+            <h4 className="sidebar-component__section-title">Financial indexes</h4>
+            <hr className="sidebar-component__statistics__tabs_separator" />
+            <span className="sidebar-component__statistics__tabs_title">Index</span>
             <ul className="tabs sidebar-component__statistics__tabs">
                 <li className="tab col s3"><a href="#" onClick={onPpClicked} className={chartData.financialIndex === PP ? "active": ""}>Payback Period</a></li>
                 <li className="tab col s3"><a href="#" onClick={onYieldClicked} className={chartData.financialIndex === YIELD ? "active": ""}>Yield</a></li>

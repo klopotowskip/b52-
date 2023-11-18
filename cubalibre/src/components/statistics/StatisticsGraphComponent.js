@@ -103,12 +103,15 @@ const StatisticsGraphComponent = ({statistics}) => {
 
     return (
         <div className="sidebar-component__statistics">
-
+            <h4 className="sidebar-component__section-title">Statistics</h4>
+            <hr className="sidebar-component__statistics__tabs_separator" />
+            <span className="sidebar-component__statistics__tabs_title">Market</span>
             <ul className="tabs sidebar-component__statistics__tabs">
                 <li className="tab col s3"><a href="#" onClick={onSaleClicked} className={chartData.market === MARKET_SALE ? "active": ""}>Sale</a></li>
                 <li className="tab col s3"><a href="#" onClick={onRentalClicked} className={chartData.market === MARKET_RENTAL ? "active": ""}>Rental</a></li>
             </ul>
-
+            <hr className="sidebar-component__statistics__tabs_separator" />
+            <span className="sidebar-component__statistics__tabs_title">Statistic</span>
             <ul className="tabs sidebar-component__statistics__tabs">
                 <li className="tab col s3">
                     <a href="#" onClick={onPriceClicked} className={chartData.key === PRICE ? "active": ""}>Price</a>
@@ -117,7 +120,7 @@ const StatisticsGraphComponent = ({statistics}) => {
                     <a href="#" onClick={onPricePerSquareMeterClicked} className={chartData.key === PRICE_PER_SQ_M ? "active": ""}>Price/m<sup>2</sup></a>
                 </li>
                 <li className="tab col s3">
-                    <a href="#" onClick={onSizeClicked} className={chartData.key === SIZE ? "active": ""}>Size</a>
+                    <a href="#" onClick={onSizeClicked} className={chartData.key === SIZE ? "active": ""}>Area</a>
                 </li>
             </ul>
             {statistics[chartData.market].map(entry => entry[chartData.key]).length !== 0 ? (<Line
