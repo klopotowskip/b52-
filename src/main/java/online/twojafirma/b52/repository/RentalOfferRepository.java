@@ -14,14 +14,18 @@ public interface RentalOfferRepository extends JpaRepository<RentalOffer, Intege
 
     @Query("SELECT new online.twojafirma.b52.model.summary.RentalOffersSummary(" +
             "   so.district, so.entryDateYearMonth," +
-            "   AVG(so.latestPrice), AVG(so.latestPricePerSquareMeter), AVG(so.sizeSquareMeters)" +
+            "   MEDIAN(so.latestPrice) OVER (PARTITION BY so.district, so.entryDateYearMonth)," +
+            "   MEDIAN(so.latestPricePerSquareMeter) OVER (PARTITION BY so.district, so.entryDateYearMonth)," +
+            "   MEDIAN(so.sizeSquareMeters) OVER (PARTITION BY so.district, so.entryDateYearMonth)" +
             ")" +
             "FROM SaleOffer AS so GROUP BY so.district, so.entryDateYearMonth")
     List<RentalOffersSummary> getAllStatistics();
 
     @Query("SELECT new online.twojafirma.b52.model.summary.RentalOffersSummary(" +
             "   so.district, so.entryDateYearMonth," +
-            "   AVG(so.latestPrice), AVG(so.latestPricePerSquareMeter), AVG(so.sizeSquareMeters)" +
+            "   MEDIAN(so.latestPrice) OVER (PARTITION BY so.district, so.entryDateYearMonth)," +
+            "   MEDIAN(so.latestPricePerSquareMeter) OVER (PARTITION BY so.district, so.entryDateYearMonth)," +
+            "   MEDIAN(so.sizeSquareMeters) OVER (PARTITION BY so.district, so.entryDateYearMonth)" +
             ")" +
             "FROM RentalOffer AS so WHERE so.district = :district GROUP BY so.district, so.entryDateYearMonth")
     List<RentalOffersSummary> getStatisticsForDistrict(@Param("district") District district);

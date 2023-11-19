@@ -22,6 +22,10 @@ public class RentalOffersSummary implements Comparable<RentalOffersSummary>{
         this.sizeSquareMeters = new BigDecimal(sizeSquareMeters).setScale(2, RoundingMode.HALF_UP);
     }
 
+    public RentalOffersSummary(District district, String entryDateYearMonth, Object latestPrice, Object latestPricePerSquareMeter, Object sizeSquareMeters) {
+        this(district, entryDateYearMonth, (Double) latestPrice, (Double)  latestPricePerSquareMeter, (Double) sizeSquareMeters);
+    }
+
     private YearMonth fromString(String yearMonthString){
         String[] tokens = yearMonthString.split("-");
 
