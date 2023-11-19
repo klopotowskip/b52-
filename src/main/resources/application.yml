@@ -4,7 +4,7 @@ spring:
   main:
     web-application-type: servlet
   datasource:
-    url: jdbc:mariadb://localhost:3306/housintelligence_bis
+    url: jdbc:mariadb://localhost:3306/housintelligence
     username: root
     password:
     driver-class-name: org.mariadb.jdbc.Driver
