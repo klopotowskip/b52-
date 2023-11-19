@@ -12,21 +12,21 @@ import java.util.List;
 
 public interface SaleOfferRepository extends JpaRepository<SaleOffer, Integer> {
 
-    @Query("SELECT new online.twojafirma.b52.model.summary.SaleOffersSummary(" +
-            "   so.district, so.entryDateYearMonth," +
-            "   MEDIAN(so.latestPrice) OVER (PARTITION BY so.district, so.entryDateYearMonth)," +
-            "   MEDIAN(so.latestPricePerSquareMeter) OVER (PARTITION BY so.district, so.entryDateYearMonth)," +
-            "   MEDIAN(so.sizeSquareMeters) OVER (PARTITION BY so.district, so.entryDateYearMonth)" +
+    @Query("SELECT DISTINCT new online.twojafirma.b52.model.summary.SaleOffersSummary(" +
+            "        so.district, so.entryDateYearMonth," +
+            "        MEDIAN(so.latestPrice) OVER (PARTITION BY so.district, so.entryDateYearMonth)," +
+            "        MEDIAN(so.latestPricePerSquareMeter) OVER (PARTITION BY so.district, so.entryDateYearMonth)," +
+            "        MEDIAN(so.sizeSquareMeters) OVER (PARTITION BY so.district, so.entryDateYearMonth)" +
             ")" +
-            "FROM SaleOffer AS so GROUP BY so.district, so.entryDateYearMonth")
+            "    FROM SaleOffer AS so")
     List<SaleOffersSummary> getAllStatistics();
 
-    @Query("SELECT new online.twojafirma.b52.model.summary.SaleOffersSummary(" +
-            "   so.district, so.entryDateYearMonth," +
-            "   MEDIAN(so.latestPrice) OVER (PARTITION BY so.district, so.entryDateYearMonth)," +
-            "   MEDIAN(so.latestPricePerSquareMeter) OVER (PARTITION BY so.district, so.entryDateYearMonth)," +
-            "   MEDIAN(so.sizeSquareMeters) OVER (PARTITION BY so.district, so.entryDateYearMonth)" +
+    @Query("SELECT DISTINCT new online.twojafirma.b52.model.summary.SaleOffersSummary(" +
+            "        so.district, so.entryDateYearMonth," +
+            "        MEDIAN(so.latestPrice) OVER (PARTITION BY so.district, so.entryDateYearMonth)," +
+            "        MEDIAN(so.latestPricePerSquareMeter) OVER (PARTITION BY so.district, so.entryDateYearMonth)," +
+            "        MEDIAN(so.sizeSquareMeters) OVER (PARTITION BY so.district, so.entryDateYearMonth)" +
             ")" +
-            "FROM SaleOffer AS so WHERE so.district = :district GROUP BY so.district, so.entryDateYearMonth")
+            "    FROM SaleOffer AS so WHERE so.district = :district")
     List<SaleOffersSummary> getStatisticsForDistrict(@Param("district") District district);
 }

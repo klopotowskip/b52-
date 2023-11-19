@@ -12,21 +12,21 @@ import java.util.List;
 
 public interface RentalOfferRepository extends JpaRepository<RentalOffer, Integer> {
 
-    @Query("SELECT new online.twojafirma.b52.model.summary.RentalOffersSummary(" +
-            "   so.district, so.entryDateYearMonth," +
-            "   MEDIAN(so.latestPrice) OVER (PARTITION BY so.district, so.entryDateYearMonth)," +
-            "   MEDIAN(so.latestPricePerSquareMeter) OVER (PARTITION BY so.district, so.entryDateYearMonth)," +
-            "   MEDIAN(so.sizeSquareMeters) OVER (PARTITION BY so.district, so.entryDateYearMonth)" +
+    @Query("SELECT DISTINCT new online.twojafirma.b52.model.summary.RentalOffersSummary(" +
+            "        ro.district, ro.entryDateYearMonth," +
+            "        MEDIAN(ro.latestPrice) OVER (PARTITION BY ro.district, ro.entryDateYearMonth)," +
+            "        MEDIAN(ro.latestPricePerSquareMeter) OVER (PARTITION BY ro.district, ro.entryDateYearMonth)," +
+            "        MEDIAN(ro.sizeSquareMeters) OVER (PARTITION BY ro.district, ro.entryDateYearMonth)" +
             ")" +
-            "FROM SaleOffer AS so GROUP BY so.district, so.entryDateYearMonth")
+            "    FROM RentalOffer AS ro")
     List<RentalOffersSummary> getAllStatistics();
 
-    @Query("SELECT new online.twojafirma.b52.model.summary.RentalOffersSummary(" +
-            "   so.district, so.entryDateYearMonth," +
-            "   MEDIAN(so.latestPrice) OVER (PARTITION BY so.district, so.entryDateYearMonth)," +
-            "   MEDIAN(so.latestPricePerSquareMeter) OVER (PARTITION BY so.district, so.entryDateYearMonth)," +
-            "   MEDIAN(so.sizeSquareMeters) OVER (PARTITION BY so.district, so.entryDateYearMonth)" +
+    @Query("SELECT DISTINCT new online.twojafirma.b52.model.summary.RentalOffersSummary(" +
+            "        ro.district, ro.entryDateYearMonth," +
+            "        MEDIAN(ro.latestPrice) OVER (PARTITION BY ro.district, ro.entryDateYearMonth)," +
+            "        MEDIAN(ro.latestPricePerSquareMeter) OVER (PARTITION BY ro.district, ro.entryDateYearMonth)," +
+            "        MEDIAN(ro.sizeSquareMeters) OVER (PARTITION BY ro.district, ro.entryDateYearMonth)" +
             ")" +
-            "FROM RentalOffer AS so WHERE so.district = :district GROUP BY so.district, so.entryDateYearMonth")
+            "    FROM RentalOffer AS ro WHERE ro.district = :district")
     List<RentalOffersSummary> getStatisticsForDistrict(@Param("district") District district);
 }
